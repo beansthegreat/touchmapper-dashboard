@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TouchMapper Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    h2 { margin-bottom: 0; }
+    #data { margin-top: 20px; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h2>TouchMapper Analytics</h2>
+  <p><strong>Pageviews:</strong> <span id="pageviews">0</span></p>
+  <p><strong>Clicks:</strong> <span id="clicks">0</span></p>
+
+  <h3>Top Clicked Elements</h3>
+  <ul id="top-clicks"></ul>
+
+  <script>
+  const supabase = supabase.createClient(
+    'https://aandwoaqwhkgggudkfdm.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhbmR3b2Fxd2hrZ2dndWRrZmRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2ODgxMTYsImV4cCI6MjA2MzI2NDExNn0.f7iJj6eti1J7pjB1XPVuVxmoKW8En6inb4YQumgOM3M'
+  );
+
+  async function loadData(siteId) {
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .eq('site_id', siteId);
+
+    if (error) return alert('Error loading data');
+
+    const pageviews = data.filter(e => e.event_type === 'pageview').length;
+    const clicks = data.filter(e => e.event_type === 'click').length;
+    document.getElementById("pageviews").textContent = pageviews;
+    document.getElementById("clicks").textContent = clicks;
+
+    const counts = {};
+    data.forEach(e => {
+      if (e.event_type === 'click') {
+        counts[e.element_text] = (counts[e.element_text] || 0) + 1;
+      }
+    });
+
+    document.getElementById("top-clicks").innerHTML = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([text, count]) => `<li>${text} - ${count}</li>`)
+      .join('');
+  }
+
+  loadData("6a5234bd-1c2d-440f-ad53-9138527958d5");
+</script>
+</body>
+</html>
