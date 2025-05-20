@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TouchMapper Dashboard</title>
+
+  <!-- ✅ Load Supabase FIRST -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -44,6 +47,7 @@
     </ul>
   </div>
 
+  <!-- ✅ Your Supabase client logic -->
   <script>
     const supabase = supabase.createClient(
       'https://aandwoaqwhkgggudkfdm.supabase.co',
@@ -87,7 +91,7 @@
       }
     }
 
-    // ✅ Your current site_id
+    // ✅ Your actual site ID
     loadData("6a5234bd-1c2d-440f-ad53-9138527958d5");
   </script>
 </body>
