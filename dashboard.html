@@ -34,11 +34,11 @@
 </head>
 <body>
   <div class="container">
-    <h2> TouchMapper Analytics</h2>
+    <h2>📊 TouchMapper Analytics</h2>
     <p class="stat"><strong>Pageviews:</strong> <span id="pageviews" class="loading">Loading...</span></p>
     <p class="stat"><strong>Clicks:</strong> <span id="clicks" class="loading">Loading...</span></p>
 
-    <h3> Top Clicked Elements</h3>
+    <h3>🔥 Top Clicked Elements</h3>
     <ul id="top-clicks">
       <li class="loading">Loading...</li>
     </ul>
@@ -61,13 +61,14 @@
 
         const pageviews = data.filter(e => e.event_type === 'pageview').length;
         const clicks = data.filter(e => e.event_type === 'click').length;
+
         document.getElementById("pageviews").textContent = pageviews;
         document.getElementById("clicks").textContent = clicks;
 
         const clickMap = {};
         data.forEach(e => {
           if (e.event_type === 'click') {
-            const label = e.element_text || "(no label)";
+            const label = e.element_text?.trim() || "(no label)";
             clickMap[label] = (clickMap[label] || 0) + 1;
           }
         });
@@ -86,7 +87,7 @@
       }
     }
 
-    // Load your current site_id
+    // ✅ Your current site_id
     loadData("6a5234bd-1c2d-440f-ad53-9138527958d5");
   </script>
 </body>
